@@ -22,6 +22,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -37,13 +38,13 @@ public class Handler extends JPanel implements MouseMotionListener{
 	 * hey hey hey
 	 */
 	
-	
+	JFrame frame;
 	private static final long serialVersionUID = 1L;
 	private int HP = 100;
 	Thread music;
-	Slasher player = new Slasher(225,225,Color.RED,5,"data/pchar.png");
-	Chaser sampley = new Chaser(400,400,Color.BLUE,1,"data/face.png");
-	Updown go = new Updown(500,100, Color.GREEN,1,"data/face.png",60);
+	Slasher player;
+	Chaser sampley;
+	Updown go;
 	Image ubw = null;
 	Image gu = null;
 	Player lplayer;
@@ -67,9 +68,9 @@ public class Handler extends JPanel implements MouseMotionListener{
 			e1.printStackTrace();
 		}
 		try {
-            FileInputStream fis = new FileInputStream("data/kawai kenji - tenchi hou take.mp3");
+/*            FileInputStream fis = new FileInputStream("data/kawai kenji - tenchi hou take.mp3");
             BufferedInputStream bis = new BufferedInputStream(fis);
-            lplayer = new Player(bis);
+            lplayer = new Player(bis);*/
             FileInputStream fis2 = new FileInputStream("data/bgm110b.mp3");
             BufferedInputStream bis2 = new BufferedInputStream(fis2);
             lplayer2 = new Player(bis2);
@@ -86,6 +87,12 @@ public class Handler extends JPanel implements MouseMotionListener{
         setPreferredSize(new Dimension(800, 600));
         //setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
         setFocusable(true);
+        frame = new JFrame("Top down fighter");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setContentPane(this);
+//	      Display the window.
+	        frame.pack();
+	        frame.setVisible(true);
 	}
 	
 	public void playzor(){
@@ -98,11 +105,16 @@ public class Handler extends JPanel implements MouseMotionListener{
         };
         music.start();
 	}
+	public void stopmusic(){
+		
+	}
 	
 	
 	public void launchframe(){
         playzor();
-        
+        player = new Slasher(225,225,Color.RED,5,"data/pchar.png");
+    	sampley = new Chaser(400,400,Color.BLUE,1,"data/face.png");
+    	go = new Updown(500,100, Color.GREEN,1,"data/face.png",60);
         while (true){
     	repaint();
     	if (!player.isDead()){
@@ -152,8 +164,6 @@ public class Handler extends JPanel implements MouseMotionListener{
 			HP = 0;
 			player.die();
 		}
-		
-		
 		try {
 			Thread.sleep(5);
 		} catch (InterruptedException e) {
@@ -191,18 +201,9 @@ public class Handler extends JPanel implements MouseMotionListener{
 	                
 	            }
 	        });*/
-	        
-	        JFrame frame = new JFrame("Top down fighter");
-	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	        
 	        //Create and set up the content pane.
 	        Handler newContentPane = new Handler();
 	        newContentPane.setOpaque(true); //content panes must be opaque
-	        frame.setContentPane(newContentPane);
-//	      Display the window.
-	        frame.pack();
-	        frame.setVisible(true);
-	        
 	        newContentPane.launchframe();
 	        
 	}
@@ -233,10 +234,8 @@ public class Handler extends JPanel implements MouseMotionListener{
 		g2d.setColor(Color.RED);
 		g2d.fillOval(destx-10, desty - 10, 20, 20);
 		}
-		
 		player.face(getAngle(x,y,player.x,player.y), 50);
 		player.draw(g2d);
-		
 		sampley.face(getAngle(player.x,player.y,sampley.x,sampley.y),50);
 		sampley.draw(g2d);
 		
@@ -353,7 +352,17 @@ public class Handler extends JPanel implements MouseMotionListener{
 			case KeyEvent.VK_SHIFT:
 				B = "BLINK ON!";
 				break;
-				
+			case KeyEvent.VK_R:
+				int n = JOptionPane.showConfirmDialog(frame,
+					    "Restart?",
+					    "WOULDST THOU",
+					    JOptionPane.YES_NO_OPTION,
+					    JOptionPane.QUESTION_MESSAGE
+					   );
+				System.out.println(n);
+				if (n == 0){
+					launchframe();
+				}
 			}
 		}
 
