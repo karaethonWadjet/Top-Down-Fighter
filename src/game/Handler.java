@@ -40,7 +40,7 @@ public class Handler extends JPanel implements MouseMotionListener{
 	
 	JFrame frame;
 	private static final long serialVersionUID = 1L;
-	private int HP = 100;
+	private int HP;
 	Thread music;
 	Slasher player;
 	Chaser sampley;
@@ -58,6 +58,7 @@ public class Handler extends JPanel implements MouseMotionListener{
 	int y;
 	AudioClip ac;
 	Graphics2D g2 = (Graphics2D) getGraphics();
+	boolean gameover = false;
 	public Handler(){
 		super(new GridLayout(0,1));
 		try {
@@ -95,9 +96,16 @@ public class Handler extends JPanel implements MouseMotionListener{
 	        frame.setVisible(true);
 	}
 	
-	public void playzor(){
-		
-		music = new Thread() {
+	
+	public void restart(){
+		if (music != null){
+			lplayer2.close();
+		}
+		player = new Slasher(225,225,Color.RED,5,"data/pchar.png");
+    	sampley = new Chaser(400,400,Color.BLUE,1,"data/face.png");
+    	go = new Updown(500,100, Color.GREEN,1,"data/face.png",60);
+    	HP = 100;
+    	music = new Thread() {
             public void run() {
                 try { lplayer2.play(); }
                 catch (Exception e) { System.out.println(e); }
@@ -105,17 +113,12 @@ public class Handler extends JPanel implements MouseMotionListener{
         };
         music.start();
 	}
-	public void stopmusic(){
-		
-	}
-	
 	
 	public void launchframe(){
-        playzor();
-        player = new Slasher(225,225,Color.RED,5,"data/pchar.png");
-    	sampley = new Chaser(400,400,Color.BLUE,1,"data/face.png");
-    	go = new Updown(500,100, Color.GREEN,1,"data/face.png",60);
-        while (true){
+		//stopmusic();
+        //playzor();
+        restart();
+        while (!gameover){
     	repaint();
     	if (!player.isDead()){
     	/*if (Math.abs(destx-player.x) < 10 && Math.abs(desty-player.y) < 10){
@@ -152,8 +155,6 @@ public class Handler extends JPanel implements MouseMotionListener{
 		if (directions[3]){
 			player.right();
 		}
-		
-		
 		if (!sampley.isDead()){
 			sampley.moveTo(player.x,player.y);}
 		
@@ -171,9 +172,8 @@ public class Handler extends JPanel implements MouseMotionListener{
 			e.printStackTrace();
 		}
         }
-	}
-	
-	
+       
+	}	
 	public static void main(String[] BLARG){
 		 try {
 	            //UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
@@ -189,7 +189,6 @@ public class Handler extends JPanel implements MouseMotionListener{
 	        } catch (ClassNotFoundException ex) {
 	            ex.printStackTrace();
 	        }
-	       
 	        /* Turn off metal's use of bold fonts */
 	       // UIManager.put("swing.boldMetal", Boolean.FALSE);
 	        
@@ -361,7 +360,8 @@ public class Handler extends JPanel implements MouseMotionListener{
 					   );
 				System.out.println(n);
 				if (n == 0){
-					launchframe();
+					//gameover = true;
+					restart();
 				}
 			}
 		}
