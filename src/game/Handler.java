@@ -68,18 +68,7 @@ public class Handler extends JPanel implements MouseMotionListener{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		try {
-/*            FileInputStream fis = new FileInputStream("data/kawai kenji - tenchi hou take.mp3");
-            BufferedInputStream bis = new BufferedInputStream(fis);
-            lplayer = new Player(bis);*/
-            FileInputStream fis2 = new FileInputStream("data/bgm110b.mp3");
-            BufferedInputStream bis2 = new BufferedInputStream(fis2);
-            lplayer2 = new Player(bis2);
-		}
-        catch (Exception e) {
-            System.out.println("Problem playing file OH NOES");
-            System.out.println(e);
-        }
+		
 
 		
         addMouseMotionListener(this);
@@ -101,6 +90,18 @@ public class Handler extends JPanel implements MouseMotionListener{
 		if (music != null){
 			lplayer2.close();
 		}
+		try {
+/*            FileInputStream fis = new FileInputStream("data/kawai kenji - tenchi hou take.mp3");
+			      BufferedInputStream bis = new BufferedInputStream(fis);
+			            lplayer = new Player(bis);*/
+			            FileInputStream fis2 = new FileInputStream("data/bgm110b.mp3");
+			            BufferedInputStream bis2 = new BufferedInputStream(fis2);
+			            lplayer2 = new Player(bis2);
+					}
+			        catch (Exception e) {
+			            System.out.println("Problem playing file OH NOES");
+			            System.out.println(e);
+			        }
 		player = new Slasher(225,225,Color.RED,5,"data/pchar.png");
     	sampley = new Chaser(400,400,Color.BLUE,1,"data/face.png");
     	go = new Updown(500,100, Color.GREEN,1,"data/face.png",60);
