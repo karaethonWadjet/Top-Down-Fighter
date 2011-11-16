@@ -19,11 +19,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.*;
 
 import javazoom.jl.player.Player;
 
@@ -32,6 +28,11 @@ public class Handler extends JPanel implements MouseMotionListener{
 	 * hey hey hey
 	 */
 	JFrame frame;
+	JMenuBar bar = new JMenuBar();
+	JMenu pile = new JMenu("pile");
+	JMenu halp = new JMenu("halp");
+	JMenuItem quit = new JMenuItem("alt-QQ");
+	JMenuItem credits = new JMenuItem("ab00t");
 	private static final long serialVersionUID = 1L;
 	private int HP;
 	Thread music;
@@ -51,7 +52,7 @@ public class Handler extends JPanel implements MouseMotionListener{
 	int y;
 	AudioClip ac;
 	Graphics2D g2 = (Graphics2D) getGraphics();
-	boolean gameover = false;
+	Mover[] enemies;
 	public Handler(){
 		super(new GridLayout(0,1));
 		try {
@@ -76,6 +77,12 @@ public class Handler extends JPanel implements MouseMotionListener{
 	        frame.setVisible(true);
 	}
 	
+	public int getPX(){
+		return player.x;
+	}
+	public int getPY(){
+		return player.y;
+	}
 	
 	public void restart(){
 		if (music != null){
@@ -93,9 +100,9 @@ public class Handler extends JPanel implements MouseMotionListener{
 			            System.out.println("Problem playing file OH NOES");
 			            System.out.println(e);
 			        }
-		player = new Slasher(225,225,Color.RED,5,"data/pchar.png");
-    	sampley = new Chaser(400,400,Color.BLUE,1,"data/face.png");
-    	go = new Updown(500,100, Color.GREEN,1,"data/face.png",60);
+		player = new Slasher(225,225,Color.RED,5,"data/pchar.png", this);
+    	sampley = new Chaser(400,400,Color.BLUE,1,"data/face.png", this);
+    	go = new Updown(500,100, Color.GREEN,1,"data/face.png",60, this);
     	HP = 100;
     	music = new Thread() {
             public void run() {
@@ -110,29 +117,10 @@ public class Handler extends JPanel implements MouseMotionListener{
 		//stopmusic();
         //playzor();
         restart();
-        while (!gameover){
+        while (true){
     	repaint();
     	if (!player.isDead()){
-    	/*if (Math.abs(destx-player.x) < 10 && Math.abs(desty-player.y) < 10){
-    		destx = player.x;
-			desty = player.y;
-			reached = true;
-    	}
-    	else{
-    		if (destx - player.x > 5){
-    			player.right();
-    		}
-    		else{
-    			player.left();
-    		}
-    		if (desty - player.y > 5){
-    			player.down();
-    		}
-    		else{
-    			player.up();
-    		}
     		
-    	}*/
     	if (!player.reached()){
     		player.moveTo(destx,desty);}
     	if (directions[0]){
@@ -227,7 +215,7 @@ public class Handler extends JPanel implements MouseMotionListener{
 		}
 		player.face(getAngle(x,y,player.x,player.y), 50);
 		player.draw(g2d);
-		sampley.face(getAngle(player.x,player.y,sampley.x,sampley.y),50);
+		sampley.face();
 		sampley.draw(g2d);
 		
 		go.draw(g2d);
@@ -245,6 +233,10 @@ public class Handler extends JPanel implements MouseMotionListener{
 			if (go.collision(player) && !go.isDead() || sampley.collision(player) && !sampley.isDead()){
 				HP--;
 			}
+			// preparing to separate enemies and background into another class to support multiple 'levels'
+/*			for (int i = 0; i < enemies.length; i++){
+				HP -= (enemies[i].collision(player)? 1 : 0);
+			}*/
 		}
 		if (go.isDead() && sampley.isDead()){
 			g2d.drawString("U WIN", 400,300);
@@ -317,10 +309,8 @@ public class Handler extends JPanel implements MouseMotionListener{
 		}
 
 		public void mouseReleased(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
+			// TODO Auto-generated method stub	
 		}
-		
 	}
 	
 	public class shoop implements KeyListener{
@@ -350,9 +340,7 @@ public class Handler extends JPanel implements MouseMotionListener{
 					    JOptionPane.YES_NO_OPTION,
 					    JOptionPane.QUESTION_MESSAGE
 					   );
-				System.out.println(n);
 				if (n == 0){
-					//gameover = true;
 					restart();
 				}
 			}
@@ -380,7 +368,6 @@ public class Handler extends JPanel implements MouseMotionListener{
 			}
 			
 		}
-
 		public void keyTyped(KeyEvent e) {
 			// TODO Auto-generated method stub
 			

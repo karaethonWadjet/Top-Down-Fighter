@@ -25,14 +25,15 @@ public class Mover {
 	boolean dead;
 	String type;
 	Rectangle2D noob = new Rectangle();
+	Handler Parent;
 
-	public Mover(int a, int b, Color col, int s, String p){
+	public Mover(int a, int b, Color col, int s, String p, Handler pa){
 		x = a;
 		y = b;
 		c = col;
 		speed = s;
 		dead = false;
-		//d = dir;
+		Parent = pa;
 		facer.setTransform(identity);
 		try {
 			pic = ImageIO.read(new File(p));
@@ -73,6 +74,10 @@ public class Mover {
 		facer.rotate(radAngle,a,a);
 	}
 	
+	public void transport(int c, int d){
+		x = c;
+		y = d;
+	}
 	public void draw(Graphics2D g2d){
 		//g2d.setColor(c);
 		//g2d.fillOval(x-20, y-20, 40, 40);
@@ -100,6 +105,18 @@ public class Mover {
 		//return (Math.abs(m.x - this.x) <= 5 && Math.abs(m.y - this.y) <= 5);
 		return noob.intersects(m.noob);
 		
+	}
+	
+	public double getAngle(int x1, int y1, int x2, int y2){
+
+		double Xd = x1 - x2;
+		double Yd = y1 - y2;
+
+		double radAngle = Math.atan(Yd/Xd)+ Math.PI/2; //Use atan to calculate the angle
+		if (Xd < 0){
+			radAngle += Math.PI;
+		}
+		return radAngle;
 	}
 	
 }
