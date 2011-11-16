@@ -1,7 +1,5 @@
 package game;
 
-
-
 import java.applet.AudioClip;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -29,15 +27,10 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import javazoom.jl.player.Player;
 
-
-
- 
-
 public class Handler extends JPanel implements MouseMotionListener{
 	/**
 	 * hey hey hey
 	 */
-	
 	JFrame frame;
 	private static final long serialVersionUID = 1L;
 	private int HP;
@@ -68,9 +61,7 @@ public class Handler extends JPanel implements MouseMotionListener{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
-
-		
+		// registering controls	
         addMouseMotionListener(this);
         addKeyListener(new shoop());
         addMouseListener(new hoop());
