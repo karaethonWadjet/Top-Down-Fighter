@@ -8,10 +8,13 @@ import javax.imageio.ImageIO;
 
 public class level {
 
+	// enemy array key
+	// 1. Chasers
+	// 2. 
 	Image background;
 	Mover[] NMEs;
 	
-	public level(File goruu){
+	public level(File goruu, int[] p){
 		try {
 			background = ImageIO.read(goruu);
 		} catch (IOException e) {
@@ -19,7 +22,6 @@ public class level {
 			System.out.println("oh shitake mushrooms image failed to load");
 		}
 	}
-	
 	public void draw(){
 		
 	}
