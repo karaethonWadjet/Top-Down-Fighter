@@ -10,7 +10,7 @@ public class Updown extends Mover {
 		super(a, b, col, s, p, pa);
 		up = true;
 		count = 0;
-		type = "updown";
+		mt = movetype.updown;
 		max = c;
 		// TODO Auto-generated constructor stub
 	}
@@ -29,6 +29,12 @@ public class Updown extends Mover {
 			down();
 			face(Math.PI, 20);
 		}
+	}
+
+	@Override
+	public void moveTo(int a, int b) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

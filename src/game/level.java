@@ -10,7 +10,8 @@ public class level {
 
 	// enemy array key
 	// 1. Chasers
-	// 2. 
+	// 2. Updowns
+	// 3. Slashers
 	Image background;
 	Mover[] NMEs;
 	
@@ -21,9 +22,11 @@ public class level {
 			// TODO Auto-generated catch block
 			System.out.println("oh shitake mushrooms image failed to load");
 		}
+		for (int i = 0; i < p[0]; i++){
+			
+		}
 	}
 	public void draw(){
 		
 	}
-	
 }

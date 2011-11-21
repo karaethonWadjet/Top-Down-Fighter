@@ -7,7 +7,7 @@ public class Chaser extends Mover {
 	
 	public Chaser(int a, int b, Color col, int s, String p, Handler pa) {
 		super(a, b, col, s, p, pa);
-		type = "chaser";
+		mt = movetype.chaser;
 		// TODO Auto-generated constructor stub
 	}
 

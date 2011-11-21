@@ -12,7 +12,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 
-public class Mover {
+public abstract class Mover {
+	public enum movetype{chaser,updown,slasher}
 	AffineTransform identity = new AffineTransform();
 	AffineTransform facer = new AffineTransform();
 	Image pic;
@@ -23,7 +24,7 @@ public class Mover {
 	int speed;
 	Direction d;
 	boolean dead;
-	String type;
+	movetype mt;
 	Rectangle2D noob = new Rectangle();
 	Handler Parent;
 
@@ -106,6 +107,7 @@ public class Mover {
 		return noob.intersects(m.noob);
 		
 	}
+	public abstract void moveTo(int a , int b);
 	
 	public double getAngle(int x1, int y1, int x2, int y2){
 

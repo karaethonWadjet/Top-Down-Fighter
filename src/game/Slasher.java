@@ -42,7 +42,7 @@ public class Slasher extends Chaser {
 		return slasho;
 	}
 	public boolean hit(Mover m){
-		//System.out.println(swordbox.intersects(m.noob));
+		//System.out.printlan(swordbox.intersects(m.noob));
 		return swordbox.intersects(m.noob);
 	
 	}
