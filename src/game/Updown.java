@@ -30,13 +30,4 @@ public class Updown extends Mover {
 			face(Math.PI, 20);
 		}
 	}
-
-	@Override
-	public void moveTo(int a, int b) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
-
 }

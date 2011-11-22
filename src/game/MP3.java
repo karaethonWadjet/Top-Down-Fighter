@@ -45,7 +45,8 @@ public class MP3 {
 
     // test client
     public static void main(String[] args) {
-        String filename = "data/Rihanna - SampM (Remix) feat. Britney Spears.mp3";
+    	// replace filename with your mp3 file
+        String filename = "data/Rihanna - SampM (Remix) feat. Britney Spears.mp3"; //don't ask
         MP3 mp3 = new MP3(filename);
         mp3.play();
 

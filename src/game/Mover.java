@@ -69,6 +69,9 @@ public abstract class Mover {
 		d = Direction.Down;
 	}
 	
+	public void face(){
+		
+	}
 	public void face(double radAngle, int a){
 		facer.setTransform(identity);
 		facer.translate(x - a + 10,y - a + 5);
@@ -107,7 +110,7 @@ public abstract class Mover {
 		return noob.intersects(m.noob);
 		
 	}
-	public abstract void moveTo(int a , int b);
+	public abstract void move();
 	
 	public double getAngle(int x1, int y1, int x2, int y2){
 

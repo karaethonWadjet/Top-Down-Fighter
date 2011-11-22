@@ -1,7 +1,5 @@
 package game;
 
-import game.Mover.movetype;
-
 import java.applet.AudioClip;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -9,6 +7,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -19,6 +19,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.EventListener;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -39,14 +40,15 @@ public class Handler extends JPanel implements MouseMotionListener {
 	private int HP;
 	Thread music;
 	Slasher player;
-	Chaser[] zombies = new Chaser[2];
-	Updown go;
+	Mover[] zombies = new Mover[3];
+	
 	Image ubw = null;
 	Image gu = null;
 	Player lplayer;
 	Player lplayer2;
 	boolean[] directions = { false, false, false, false };
 	boolean reached = true;
+	boolean victory;
 	String B = "Move here";
 	int destx = 225;
 	int desty = 225;
@@ -65,6 +67,12 @@ public class Handler extends JPanel implements MouseMotionListener {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		// file menu bar
+		pile.add(quit);
+		halp.add(credits);
+		bar.add(pile);
+		bar.add(halp);
+		
 		// registering controls
 		addMouseMotionListener(this);
 		addKeyListener(new shoop());
@@ -73,6 +81,7 @@ public class Handler extends JPanel implements MouseMotionListener {
 		// setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
 		setFocusable(true);
 		frame = new JFrame("Top down fighter");
+		frame.setJMenuBar(bar);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setContentPane(this);
 		// Display the window.
@@ -109,7 +118,7 @@ public class Handler extends JPanel implements MouseMotionListener {
 		player = new Slasher(225, 225, Color.RED, 5, "data/pchar.png", this);
 		zombies[0] = new Chaser(400, 400, Color.BLUE, 1, "data/face.png", this);
 		zombies[1] = new Chaser(600, 600, Color.BLUE, 1, "data/face.png", this);
-		go = new Updown(500, 100, Color.GREEN, 1, "data/face.png", 60, this);
+		zombies[2] = new Updown(500, 100, Color.GREEN, 1, "data/face.png", 60, this);
 		HP = 100;
 		music = new Thread() {
 			public void run() {
@@ -123,11 +132,9 @@ public class Handler extends JPanel implements MouseMotionListener {
 		music.start();
 	}
 
-	public void launchframe() {
-		// stopmusic();
-		// playzor();
+	public void gamerun() {
 		restart();
-		while (true) {
+		while (!victory || !player.isDead()) {
 			repaint();
 			if (!player.isDead()) {
 
@@ -148,15 +155,11 @@ public class Handler extends JPanel implements MouseMotionListener {
 				}
 				// preparing to separate enemies and background into another class
 				// to support multiple 'levels'
+				victory = true;
 				for (int f = 0; f < zombies.length; f++){
 				if (!zombies[f].isDead()) {
-					switch(zombies[f].mt){
-					case chaser:
-					zombies[f].moveTo(player.x, player.y);
-					break;
-					case updown:
-						}
-					
+					victory = false;
+					zombies[f].move();
 					if (player.slashing() && player.hit(zombies[f])) {
 						zombies[f].die();
 					}
@@ -165,9 +168,7 @@ public class Handler extends JPanel implements MouseMotionListener {
 					}
 				}
 				}
-				if (!go.isDead()) {
-					go.move();
-				}
+				
 
 			}
 			if (HP <= 0) {
@@ -213,7 +214,7 @@ public class Handler extends JPanel implements MouseMotionListener {
 		// Create and set up the content pane.
 		Handler newContentPane = new Handler();
 		newContentPane.setOpaque(true); // content panes must be opaque
-		newContentPane.launchframe();
+		newContentPane.gamerun();
 
 	}
 
@@ -230,7 +231,7 @@ public class Handler extends JPanel implements MouseMotionListener {
 
 	}
 
-	public void update(Graphics g) {
+	public void update1(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		// ubw.paintIcon(this, g2d, 0, 0);
 		g2d.drawImage(ubw, 0, 0, null);
@@ -247,11 +248,7 @@ public class Handler extends JPanel implements MouseMotionListener {
 		player.draw(g2d);
 		for (int i = 0; i < zombies.length; i++){
 		zombies[i].face();
-		zombies[i].draw(g2d);}
-		
-
-		go.draw(g2d);
-
+		zombies[i].draw(g2d);
 		g2d.setColor(Color.RED);
 		g2d.drawRect(300, 10, 200, 50);
 		g2d.fillRect(300, 10, HP * 2, 50);
@@ -260,23 +257,15 @@ public class Handler extends JPanel implements MouseMotionListener {
 		g2d.drawString(HP + "/100", 358, 40);
 		if (player.isDead()) {
 			g2d.drawString("Ur dead", 400, 400);
-		} else {
-			if (go.collision(player) && !go.isDead()) {
-				HP--;
-			}
-		}
-		if (go.isDead() && zombies[0].isDead()) {
+		} 
+		else if (victory) {
 			g2d.drawString("A winnar is you", 400, 300);
 		}
-		if (player.slashing()) {
-			if (player.hit(go)) {
-				go.die();
-			}
 		}
 	}
 
 	public void paint(Graphics g) {
-		update(g);
+		update1(g);
 	}
 
 	public double getAngle(int x1, int y1, int x2, int y2) {
@@ -292,7 +281,7 @@ public class Handler extends JPanel implements MouseMotionListener {
 		}
 		return radAngle;
 	}
-
+//EVENT LISTENERS DOWN HERE
 	public class hoop implements MouseListener {
 
 		public void mouseClicked(MouseEvent arg0) {
@@ -341,6 +330,8 @@ public class Handler extends JPanel implements MouseMotionListener {
 
 		public void keyPressed(KeyEvent arg0) {
 			// TODO Auto-generated method stub
+			reached = true;
+			player.setreach(true);
 			switch (arg0.getKeyCode()) {
 			case KeyEvent.VK_W:
 				directions[0] = true;
@@ -398,5 +389,14 @@ public class Handler extends JPanel implements MouseMotionListener {
 
 		}
 
+	}
+	
+	public class close implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			System.exit(0);
+		}
+		
 	}
 }

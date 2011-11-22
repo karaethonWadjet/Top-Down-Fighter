@@ -15,6 +15,10 @@ public class Chaser extends Mover {
 	public void face(){
 		super.face(getAngle(Parent.getPX(),Parent.getPY(),x,y),50);
 	}
+	
+	public void move(){
+		moveTo(Parent.getPX(),Parent.getPY());
+	}
 	public void moveTo(int a , int b){
 		if (Math.abs(a-x) < 10 && Math.abs(b-y) < 10 && !snappy){
     		//x = a;
