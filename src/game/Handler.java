@@ -19,7 +19,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.EventListener;
+
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -119,6 +119,7 @@ public class Handler extends JPanel implements MouseMotionListener {
 		zombies[0] = new Chaser(400, 400, Color.BLUE, 1, "data/face.png", this);
 		zombies[1] = new Chaser(600, 600, Color.BLUE, 1, "data/face.png", this);
 		zombies[2] = new Updown(500, 100, Color.GREEN, 1, "data/face.png", 60, this);
+		//zombies[3] = new Chaser()
 		HP = 100;
 		music = new Thread() {
 			public void run() {
