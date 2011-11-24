@@ -37,11 +37,9 @@ public class Handler extends JPanel implements MouseMotionListener {
 	JMenuItem quit = new JMenuItem("alt-QQ");
 	JMenuItem credits = new JMenuItem("ab00t");
 	private static final long serialVersionUID = 1L;
-	private int HP;
 	Thread music;
 	Slasher player;
-	Mover[] zombies = new Mover[3];
-	
+	Mover[] zombies = new Mover[4];
 	Image ubw = null;
 	Image gu = null;
 	Player lplayer;
@@ -115,12 +113,11 @@ public class Handler extends JPanel implements MouseMotionListener {
 			System.out.println("Problem playing file OH NOES");
 			System.out.println(e);
 		}
-		player = new Slasher(225, 225, Color.RED, 5, "data/pchar.png", this);
-		zombies[0] = new Chaser(400, 400, Color.BLUE, 1, "data/face.png", this);
-		zombies[1] = new Chaser(600, 600, Color.BLUE, 1, "data/face.png", this);
-		zombies[2] = new Updown(500, 100, Color.GREEN, 1, "data/face.png", 60, this);
-		//zombies[3] = new Chaser()
-		HP = 100;
+		player = new Slasher(225, 225, Color.RED, 5, "data/pchar.png", this, 100);
+		zombies[0] = new Chaser(400, 400, Color.BLUE, 1, "data/face.png", this, 1);
+		zombies[1] = new Chaser(600, 600, Color.BLUE, 1, "data/face.png", this, 1);
+		zombies[2] = new Updown(500, 100, Color.GREEN, 1, "data/face.png", 60, this, 1);
+		zombies[3] = new Chaser(100,400, Color.RED, 1, "data/face.png",this,1);
 		music = new Thread() {
 			public void run() {
 				try {
@@ -162,19 +159,15 @@ public class Handler extends JPanel implements MouseMotionListener {
 					victory = false;
 					zombies[f].move();
 					if (player.slashing() && player.hit(zombies[f])) {
-						zombies[f].die();
+						zombies[f].hit(1);
 					}
 					if (zombies[f].collision(player)){
-						HP--;
+						player.hit(1);
 					}
 				}
 				}
 				
 
-			}
-			if (HP <= 0) {
-				HP = 0;
-				player.die();
 			}
 			try {
 				Thread.sleep(5);
@@ -252,10 +245,10 @@ public class Handler extends JPanel implements MouseMotionListener {
 		zombies[i].draw(g2d);
 		g2d.setColor(Color.RED);
 		g2d.drawRect(300, 10, 200, 50);
-		g2d.fillRect(300, 10, HP * 2, 50);
+		g2d.fillRect(300, 10, player.hp * 2, 50);
 		g2d.setColor(Color.WHITE);
 		// g2d.drawString(NRG + "/100",570, 40);
-		g2d.drawString(HP + "/100", 358, 40);
+		g2d.drawString(player.hp + "/100", 358, 40);
 		if (player.isDead()) {
 			g2d.drawString("Ur dead", 400, 400);
 		} 

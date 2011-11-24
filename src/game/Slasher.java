@@ -8,20 +8,24 @@ public class Slasher extends Chaser {
 	boolean slasho = false;
 	int ticks;
 	Rectangle swordbox;
-	public Slasher(int a, int b, Color col, int s, String p, Handler pa) {
-		super(a, b, col, s, p, pa);
+	public Slasher(int a, int b, Color col, int s, String p, Handler pa, int h) {
+		super(a, b, col, s, p, pa, h);
 		// TODO Auto-generated constructor stub
 	}
 	public void draw(Graphics2D g2d){
 		if (!dead){
-		g2d.drawImage(pic,facer,null);}
+		g2d.drawImage(pic,facer,null);
 		g2d.setColor(Color.BLUE);
 		g2d.setTransform(facer);
 		noob = new Rectangle(x,y, 60 , 60);
 		swordbox = new Rectangle(x,y-40,60,40);
 		//g2d.draw(noob);
 		//g2d.draw(swordbox);
-		if (slasho && !isDead()){
+		if (hp <= 0){
+			hp = 0;
+			this.die();
+		}
+		if (slasho){
 			ticks++;
 			//limits the slash time
 			if (ticks >= 5){
@@ -33,7 +37,7 @@ public class Slasher extends Chaser {
 			g2d.setColor(Color.BLUE);
 			g2d.drawString("SLASHUMS", 0, 0);
 		}
-		g2d.setTransform(identity);
+		g2d.setTransform(identity);}
 	}
 	public void slash(){
 		slasho = !slasho;

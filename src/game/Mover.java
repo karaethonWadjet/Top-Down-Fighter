@@ -27,8 +27,14 @@ public abstract class Mover {
 	movetype mt;
 	Rectangle2D noob = new Rectangle();
 	Handler Parent;
+	int hp;
 
-	public Mover(int a, int b, Color col, int s, String p, Handler pa){
+	//parameters are: (a,b) starting coordinates
+	//s is speed in pixels per frame
+	//p is to handle types of movers
+	// pa registers the parent game class so it can obtain information from it
+	public Mover(int a, int b, Color col, int s, String p, Handler pa, int h){
+		hp = h;
 		x = a;
 		y = b;
 		c = col;
@@ -95,8 +101,13 @@ public abstract class Mover {
 		g2d.setColor(Color.BLUE);
 		//g2d.setTransform(facer);
 		//g2d.setTransform(identity);
+		if (hp == 0){
+			this.die();
+		}
 	}
-	
+	public void hit(int damage){
+		hp -= damage;
+	}
 	public void die(){
 		dead = true;
 	}

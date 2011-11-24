@@ -6,8 +6,8 @@ public class Updown extends Mover {
 	int max;
 	int count;
 	boolean up;
-	public Updown(int a, int b, Color col, int s, String p, int c, Handler pa) {
-		super(a, b, col, s, p, pa);
+	public Updown(int a, int b, Color col, int s, String p, int c, Handler pa, int h) {
+		super(a, b, col, s, p, pa, h);
 		up = true;
 		count = 0;
 		mt = movetype.updown;
