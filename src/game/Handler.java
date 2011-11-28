@@ -71,14 +71,15 @@ public class Handler extends JPanel implements MouseMotionListener {
 			e1.printStackTrace();
 		}
 		// file menu bar
+		quit.addActionListener(new close());
 		pile.add(quit);
 		halp.add(credits);
 		bar.add(pile);
 		bar.add(halp);
 		//main menu init
 		starto.addActionListener(new startgame());
-		mainMenu.add(text, BorderLayout.CENTER);
-		mainMenu.add(starto, BorderLayout.CENTER);
+		//add(text, BorderLayout.NORTH);
+		//add(starto, BorderLayout.SOUTH);
 		// registering controls
 		addMouseMotionListener(this);
 		addKeyListener(new shoop());
@@ -90,10 +91,12 @@ public class Handler extends JPanel implements MouseMotionListener {
 		frame.setJMenuBar(bar);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setContentPane(this);
+		//frame.add(mainMenu, BorderLayout.CENTER);
 		frame.setSize(new Dimension(800,600));
 		// Display the window.
 		//frame.pack();
 		frame.setVisible(true);
+		
 	}
 
 	public int getPX() {
@@ -140,8 +143,6 @@ public class Handler extends JPanel implements MouseMotionListener {
 	}
 
 	public void gamerun() {
-		frame.remove(mainMenu);
-		frame.setContentPane(this);
 		gamerunning = true;
 		restart();
 		while (!victory || !player.isDead()) {
@@ -237,9 +238,13 @@ public class Handler extends JPanel implements MouseMotionListener {
 
 	}
 
-	public void update(Graphics g){
+	public void update0(Graphics g){
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.drawString("MAIN MENU HOLY CRAP", 375, 300);
+		g2d.setColor(Color.RED);
+		g2d.fill3DRect(300, 260, 200, 75, true);
+		g2d.setColor(Color.BLACK); // BLAPCK
+		g2d.drawString("MAIN MENU sord....", 375, 100);
+		g2d.drawString("START!!!", 375, 300);
 		
 	}
 	public void update1(Graphics g) {
@@ -276,7 +281,11 @@ public class Handler extends JPanel implements MouseMotionListener {
 	}
 
 	public void paint(Graphics g) {
-		update1(g);
+		if(gamerunning){
+		update1(g);}
+		else{
+			update0(g);
+		}
 	}
 
 	public double getAngle(int x1, int y1, int x2, int y2) {
@@ -297,6 +306,7 @@ public class Handler extends JPanel implements MouseMotionListener {
 
 		public void mouseClicked(MouseEvent arg0) {
 			// TODO Auto-generated method stub
+			if (gamerunning){
 			switch (arg0.getButton()) {
 			case MouseEvent.BUTTON1:
 				if (B == "BLINK ON!" && !player.isDead()) {
@@ -314,6 +324,11 @@ public class Handler extends JPanel implements MouseMotionListener {
 				desty = arg0.getY();
 				player.setreach(false);
 				break;
+			}}
+			else{
+				if (arg0.getX() >= 300 && arg0.getX() <= 500 && arg0.getY() >= 260 && arg0.getY() <= 335){
+					gamerun();
+				}
 			}
 		}
 
@@ -329,7 +344,7 @@ public class Handler extends JPanel implements MouseMotionListener {
 
 		public void mousePressed(MouseEvent arg0) {
 			// TODO Auto-generated method stub
-
+			
 		}
 
 		public void mouseReleased(MouseEvent arg0) {
