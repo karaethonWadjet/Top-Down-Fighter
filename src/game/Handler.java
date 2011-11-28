@@ -1,6 +1,7 @@
 package game;
 
 import java.applet.AudioClip;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -30,6 +31,9 @@ public class Handler extends JPanel implements MouseMotionListener {
 	/**
 	 * hey hey hey
 	 */
+	JPanel mainMenu = new JPanel();
+	JLabel text = new JLabel("HOLY CRAP CLICK THE BUTTON");
+	JButton starto = new JButton("Start");
 	JFrame frame;
 	JMenuBar bar = new JMenuBar();
 	JMenu pile = new JMenu("pile");
@@ -55,9 +59,10 @@ public class Handler extends JPanel implements MouseMotionListener {
 	AudioClip ac;
 	Graphics2D g2 = (Graphics2D) getGraphics();
 	Mover[] enemies;
+	boolean gamerunning = false;
 
 	public Handler() {
-		super(new GridLayout(0, 1));
+		super(new GridLayout(1, 1));
 		try {
 			gu = ImageIO.read(new File("data/pchar.png"));
 			ubw = ImageIO.read(new File("data/unlimited_blade_works.jpg"));
@@ -70,7 +75,10 @@ public class Handler extends JPanel implements MouseMotionListener {
 		halp.add(credits);
 		bar.add(pile);
 		bar.add(halp);
-		
+		//main menu init
+		starto.addActionListener(new startgame());
+		mainMenu.add(text, BorderLayout.CENTER);
+		mainMenu.add(starto, BorderLayout.CENTER);
 		// registering controls
 		addMouseMotionListener(this);
 		addKeyListener(new shoop());
@@ -82,8 +90,9 @@ public class Handler extends JPanel implements MouseMotionListener {
 		frame.setJMenuBar(bar);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setContentPane(this);
+		frame.setSize(new Dimension(800,600));
 		// Display the window.
-		frame.pack();
+		//frame.pack();
 		frame.setVisible(true);
 	}
 
@@ -131,6 +140,9 @@ public class Handler extends JPanel implements MouseMotionListener {
 	}
 
 	public void gamerun() {
+		frame.remove(mainMenu);
+		frame.setContentPane(this);
+		gamerunning = true;
 		restart();
 		while (!victory || !player.isDead()) {
 			repaint();
@@ -176,7 +188,7 @@ public class Handler extends JPanel implements MouseMotionListener {
 				e.printStackTrace();
 			}
 		}
-
+		gamerunning = false;
 	}
 
 	public static void main(String[] BLARG) {
@@ -208,7 +220,7 @@ public class Handler extends JPanel implements MouseMotionListener {
 		// Create and set up the content pane.
 		Handler newContentPane = new Handler();
 		newContentPane.setOpaque(true); // content panes must be opaque
-		newContentPane.gamerun();
+		
 
 	}
 
@@ -225,6 +237,11 @@ public class Handler extends JPanel implements MouseMotionListener {
 
 	}
 
+	public void update(Graphics g){
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.drawString("MAIN MENU HOLY CRAP", 375, 300);
+		
+	}
 	public void update1(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		// ubw.paintIcon(this, g2d, 0, 0);
@@ -390,7 +407,11 @@ public class Handler extends JPanel implements MouseMotionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			// TODO Auto-generated method stub
 			System.exit(0);
+		}	
+	}
+	public class startgame implements ActionListener{
+		public void actionPerformed(ActionEvent c){
+			gamerun();
 		}
-		
 	}
 }
