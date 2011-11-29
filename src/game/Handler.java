@@ -80,7 +80,7 @@ public class Handler extends JPanel implements MouseMotionListener {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				back = gamerunning;
+				gamerunning = false;
 			}
 			
 		});
@@ -109,26 +109,29 @@ public class Handler extends JPanel implements MouseMotionListener {
 		// Display the window.
 		//frame.pack();
 		frame.setVisible(true);
-		
+		mainMenu();
+	}
+	
+	public void mainMenu(){
 		try{
-		FileInputStream fis = new FileInputStream("data/Cool Bro has Chill Day.mp3");
-		BufferedInputStream bis = new BufferedInputStream(fis); 
-		lplayer2 = new Player(bis);}
-		catch(Exception e){
-			System.out.println("Problem?");
-			System.out.println(e);
-		}
-		music = new Thread() {
-			public void run() {
-				try {
-					lplayer2.play();
-				} catch (Exception e) {
-					System.out.println(e);
-				}
+			FileInputStream fis = new FileInputStream("data/Cool Bro has Chill Day.mp3");
+			BufferedInputStream bis = new BufferedInputStream(fis); 
+			lplayer2 = new Player(bis);}
+			catch(Exception e){
+				System.out.println("Problem?");
+				System.out.println(e);
 			}
-		};
-		music.start();
-		
+			music = new Thread() {
+				public void run() {
+					try {
+						lplayer2.play();
+					} catch (Exception e) {
+						System.out.println(e);
+					}
+				}
+			};
+			music.start();
+			
 	}
 
 	public int getPX() {
@@ -171,7 +174,7 @@ public class Handler extends JPanel implements MouseMotionListener {
 	public void gamerun() {
 		gamerunning = true;
 		restart();
-		while (!victory || !player.isDead()) {
+		while ((!victory || !player.isDead()) && gamerunning) {
 			repaint();
 			if (!player.isDead()) {
 
@@ -213,6 +216,8 @@ public class Handler extends JPanel implements MouseMotionListener {
 				e.printStackTrace();
 			}
 		}
+		lplayer2.close();
+		mainMenu();
 	}
 
 	public static void main(String[] BLARG) {
@@ -353,7 +358,6 @@ public class Handler extends JPanel implements MouseMotionListener {
 			}}
 			else{
 				if (arg0.getX() >= 300 && arg0.getX() <= 500 && arg0.getY() >= 260 && arg0.getY() <= 335){
-					gamerunning = true;
 					Thread bluh = new Thread(){
 						public void run(){
 							gamerun();
