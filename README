@@ -1,6 +1,6 @@
 Welcome to the Top down fighter game that I don't have a good working title for yet!
 You play as a green circle with what looks like a crappy sword(SORD....) attached to the side.
-A swarm(just 2 right now) of badly drawn zombie bitmap faces are jealous of your crisp vectorized
+A swarm(just 4 right now) of badly drawn zombie bitmap faces are jealous of your crisp vectorized
 visage, and want to devour your innards. You must evade them and slay the beasts.
 
 The big red bar in the top center is how much damage you can take before vanishing from existence.
@@ -10,6 +10,6 @@ CONTROLLz:
 
 movement is right click with mouse on destination OR
  W - Up S - Down A - Left D - Right
-Left click to turn on your autoattack. 
+Left click or space bar to attack. 
 The red box is where your sord is supposedly slashing. use your imagination.(not your hair)
 
