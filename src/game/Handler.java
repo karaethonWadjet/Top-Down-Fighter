@@ -37,6 +37,7 @@ public class Handler extends JPanel implements MouseMotionListener {
 	JMenuBar bar = new JMenuBar();
 	JMenu pile = new JMenu("pile");
 	JMenu halp = new JMenu("halp");
+	JMenuItem ret = new JMenuItem("Main Menu");
 	JMenuItem quit = new JMenuItem("alt-QQ");
 	JMenuItem credits = new JMenuItem("ab00t");
 	private static final long serialVersionUID = 1L;
@@ -51,6 +52,7 @@ public class Handler extends JPanel implements MouseMotionListener {
 	boolean[] directions = { false, false, false, false };
 	boolean reached = true;
 	boolean victory;
+	boolean back = false;
 	String B = "Move here";
 	int destx = 225;
 	int desty = 225;
@@ -73,6 +75,16 @@ public class Handler extends JPanel implements MouseMotionListener {
 		}
 		// file menu bar
 		quit.addActionListener(new close());
+		ret.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				back = gamerunning;
+			}
+			
+		});
+		pile.add(ret);
 		pile.add(quit);
 		halp.add(credits);
 		bar.add(pile);
@@ -157,9 +169,10 @@ public class Handler extends JPanel implements MouseMotionListener {
 	}
 
 	public void gamerun() {
+		gamerunning = true;
 		restart();
 		while (!victory || !player.isDead()) {
-			//repaint();
+			repaint();
 			if (!player.isDead()) {
 
 				if (!player.reached()) {
@@ -192,8 +205,6 @@ public class Handler extends JPanel implements MouseMotionListener {
 					}
 				}
 				}
-				
-
 			}
 			try {
 				Thread.sleep(5);
@@ -202,7 +213,6 @@ public class Handler extends JPanel implements MouseMotionListener {
 				e.printStackTrace();
 			}
 		}
-		gamerunning = false;
 	}
 
 	public static void main(String[] BLARG) {
@@ -253,6 +263,8 @@ public class Handler extends JPanel implements MouseMotionListener {
 
 	public void update0(Graphics g){
 		Graphics2D g2d = (Graphics2D) g;
+		g2d.setColor(Color.WHITE);
+		g2d.fillRect(0, 0, 800, 600);
 		g2d.drawImage(bro, 0, 0, null);
 		g2d.setColor(Color.RED);
 		g2d.fill3DRect(300, 260, 200, 75, true);
@@ -342,7 +354,12 @@ public class Handler extends JPanel implements MouseMotionListener {
 			else{
 				if (arg0.getX() >= 300 && arg0.getX() <= 500 && arg0.getY() >= 260 && arg0.getY() <= 335){
 					gamerunning = true;
-					gamerun();
+					Thread bluh = new Thread(){
+						public void run(){
+							gamerun();
+						}
+					};
+					bluh.start();
 				}
 			}
 		}
