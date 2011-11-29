@@ -1,7 +1,6 @@
 package game;
 
 import java.applet.AudioClip;
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -46,6 +45,7 @@ public class Handler extends JPanel implements MouseMotionListener {
 	Mover[] zombies = new Mover[4];
 	Image ubw = null;
 	Image gu = null;
+	Image bro = null;
 	Player lplayer;
 	Player lplayer2;
 	boolean[] directions = { false, false, false, false };
@@ -66,6 +66,7 @@ public class Handler extends JPanel implements MouseMotionListener {
 		try {
 			gu = ImageIO.read(new File("data/pchar.png"));
 			ubw = ImageIO.read(new File("data/unlimited_blade_works.jpg"));
+			bro = ImageIO.read(new File("data/Broseph.png"));
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -97,6 +98,25 @@ public class Handler extends JPanel implements MouseMotionListener {
 		//frame.pack();
 		frame.setVisible(true);
 		
+		try{
+		FileInputStream fis = new FileInputStream("data/Cool Bro has Chill Day.mp3");
+		BufferedInputStream bis = new BufferedInputStream(fis); 
+		lplayer2 = new Player(bis);}
+		catch(Exception e){
+			System.out.println("Problem?");
+			System.out.println(e);
+		}
+		music = new Thread() {
+			public void run() {
+				try {
+					lplayer2.play();
+				} catch (Exception e) {
+					System.out.println(e);
+				}
+			}
+		};
+		music.start();
+		
 	}
 
 	public int getPX() {
@@ -112,12 +132,6 @@ public class Handler extends JPanel implements MouseMotionListener {
 			lplayer2.close();
 		}
 		try {
-			/*
-			 * FileInputStream fis = new
-			 * FileInputStream("data/kawai kenji - tenchi hou take.mp3");
-			 * BufferedInputStream bis = new BufferedInputStream(fis); lplayer =
-			 * new Player(bis);
-			 */
 			FileInputStream fis2 = new FileInputStream("data/bgm110b.mp3");
 			BufferedInputStream bis2 = new BufferedInputStream(fis2);
 			lplayer2 = new Player(bis2);
@@ -143,10 +157,9 @@ public class Handler extends JPanel implements MouseMotionListener {
 	}
 
 	public void gamerun() {
-		gamerunning = true;
 		restart();
 		while (!victory || !player.isDead()) {
-			repaint();
+			//repaint();
 			if (!player.isDead()) {
 
 				if (!player.reached()) {
@@ -240,6 +253,7 @@ public class Handler extends JPanel implements MouseMotionListener {
 
 	public void update0(Graphics g){
 		Graphics2D g2d = (Graphics2D) g;
+		g2d.drawImage(bro, 0, 0, null);
 		g2d.setColor(Color.RED);
 		g2d.fill3DRect(300, 260, 200, 75, true);
 		g2d.setColor(Color.BLACK); // BLAPCK
@@ -327,6 +341,7 @@ public class Handler extends JPanel implements MouseMotionListener {
 			}}
 			else{
 				if (arg0.getX() >= 300 && arg0.getX() <= 500 && arg0.getY() >= 260 && arg0.getY() <= 335){
+					gamerunning = true;
 					gamerun();
 				}
 			}
@@ -356,6 +371,7 @@ public class Handler extends JPanel implements MouseMotionListener {
 
 		public void keyPressed(KeyEvent arg0) {
 			// TODO Auto-generated method stub
+			if (gamerunning){
 			reached = true;
 			player.setreach(true);
 			switch (arg0.getKeyCode()) {
@@ -385,10 +401,12 @@ public class Handler extends JPanel implements MouseMotionListener {
 					restart();
 				}
 			}
+			}
 		}
 
 		public void keyReleased(KeyEvent e) {
 			// TODO Auto-generated method stub
+			if (gamerunning){
 			switch (e.getKeyCode()) {
 			case KeyEvent.VK_W:
 				directions[0] = false;
@@ -407,7 +425,7 @@ public class Handler extends JPanel implements MouseMotionListener {
 				break;
 
 			}
-
+			}
 		}
 
 		public void keyTyped(KeyEvent e) {
