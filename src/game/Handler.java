@@ -184,8 +184,8 @@ public class Handler extends JPanel implements MouseMotionListener {
 		restart();
 		while ((!victory || !player.isDead()) && gamerunning) {
 			repaint();
+			status = (player.hp >= 50 ? "Healthy" : (player.hp == 0 ? "Dead" : "Dying"));
 			if (!player.isDead()) {
-				status = (player.hp >= 50 ? "Healthy" : "Dying");
 				if (!player.reached()) {
 					player.moveTo(destx, desty);
 				}
@@ -218,9 +218,6 @@ public class Handler extends JPanel implements MouseMotionListener {
 						}
 					}
 				}
-			}
-			else{
-				status = "Dead";
 			}
 			try {
 				Thread.sleep(5);
