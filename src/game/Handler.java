@@ -273,9 +273,12 @@ public class Handler extends JPanel implements MouseMotionListener {
 		g2d.drawImage(bro, 0, 0, null);
 		g2d.setColor(Color.RED);
 		g2d.fill3DRect(300, 260, 200, 75, true);
+		g2d.setColor(Color.BLUE);
+		g2d.fill3DRect(300, 350, 200, 75, false);
 		g2d.setColor(Color.BLACK); // BLAPCK
 		g2d.drawString("MAIN MENU sord....", 375, 100);
 		g2d.drawString("START!!!", 375, 300);
+		g2d.drawString("the...instuctions", 375, 400);
 		
 	}
 	public void update1(Graphics g) {
@@ -365,6 +368,10 @@ public class Handler extends JPanel implements MouseMotionListener {
 					};
 					bluh.start();
 				}
+				else if (arg0.getX() >= 300 && arg0.getX() <= 500 && arg0.getY() >= 350 && arg0.getY() <= 425){
+					JOptionPane.showMessageDialog(null, "WASD or right click to move \n Space bar or left click to attack \n Kill everything that moves \n glhf", "Controls", JOptionPane.QUESTION_MESSAGE);
+				}
+				
 			}
 		}
 
