@@ -4,7 +4,6 @@ import java.awt.Color;
 
 public class Chaser extends Mover {
 	private boolean snappy = true;
-	
 	public Chaser(int a, int b, Color col, int s, String p, Handler pa, int h) {
 		super(a, b, col, s, p, pa, h);
 		mt = movetype.chaser;

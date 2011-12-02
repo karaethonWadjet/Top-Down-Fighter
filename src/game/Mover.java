@@ -57,7 +57,7 @@ public abstract class Mover {
 		d = Direction.Left;
 	}
 	public void right(){
-		if (x+speed <=1024){
+		if (x+speed <=800){
 			x+=speed;
 		}
 		d = Direction.Right;
@@ -69,7 +69,7 @@ public abstract class Mover {
 		d = Direction.Up;
 	}
 	public void down(){
-		if (y+speed <=768){
+		if (y+speed <=600){
 			y+=speed;
 		}
 		d = Direction.Down;

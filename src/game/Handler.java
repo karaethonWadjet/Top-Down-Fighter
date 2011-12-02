@@ -41,7 +41,7 @@ public class Handler extends JPanel implements MouseMotionListener {
 	JMenuItem credits = new JMenuItem("ab00t");
 	private static final long serialVersionUID = 1L;
 	Thread music;
-	Slasher player;
+	PChar player;
 	Mover[] zombies = new Mover[4];
 	Image ubw = null;
 	Image gu = null;
@@ -157,7 +157,7 @@ public class Handler extends JPanel implements MouseMotionListener {
 			System.out.println("Problem playing file OH NOES");
 			System.out.println(e);
 		}
-		player = new Slasher(225, 225, Color.RED, 5, "data/pchar.png", this,
+		player = new PChar(225, 225, Color.RED, 5, "data/pchar.png", this,
 				100);
 		zombies[0] = new Chaser(400, 400, Color.BLUE, 1, "data/face.png", this,
 				1);
@@ -297,15 +297,15 @@ public class Handler extends JPanel implements MouseMotionListener {
 		// ubw.paintIcon(this, g2d, 0, 0);
 		g2d.drawImage(ubw, 0, 0, null);
 		g2d.setColor(Color.BLUE);
-		g2d.drawString(B, x, y);
+		//g2d.drawString(B, x, y);
 		g2d.setColor(Color.BLACK);
-		g2d.drawLine(player.x, player.y, x, y);
+		//g2d.drawLine(player.x, player.y, x, y);
 		player.draw(g2d);
 		if (!reached) {
 			g2d.setColor(Color.RED);
 			g2d.fillOval(destx - 10, desty - 10, 20, 20);
 		}
-		player.face(getAngle(x, y, player.x, player.y), 50);
+		player.face();
 		player.draw(g2d);
 		for (int i = 0; i < zombies.length; i++) {
 			zombies[i].face();
@@ -431,6 +431,9 @@ public class Handler extends JPanel implements MouseMotionListener {
 					break;
 				case KeyEvent.VK_D:
 					directions[3] = true;
+					break;
+				case KeyEvent.VK_Q:
+					player.spin();
 					break;
 				case KeyEvent.VK_SHIFT:
 					B = "BLINK ON!";
