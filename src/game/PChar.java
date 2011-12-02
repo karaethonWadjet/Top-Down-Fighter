@@ -34,7 +34,7 @@ public class PChar extends Chaser {
 		g2d.drawImage(pic,facer,null);
 		g2d.setColor(Color.BLUE);
 		//g2d.setTransform(facer);
-		noob = new Rectangle(x,y, 60 , 60);
+		noob = new Rectangle(x-40,y-40, 80 , 80);
 		swordbox = new Rectangle(x,y-40,60,40);
 		//g2d.draw(noob);
 		//g2d.draw(swordbox);
@@ -67,6 +67,9 @@ public class PChar extends Chaser {
 	}
 	public boolean hit(Mover m){
 		//System.out.printlan(swordbox.intersects(m.noob));
+		if (spinning){
+			return noob.intersects(m.noob);
+		}
 		return swordbox.intersects(m.noob);
 	
 	}

@@ -209,7 +209,7 @@ public class Handler extends JPanel implements MouseMotionListener {
 					if (!zombies[f].isDead()) {
 						victory = false;
 						zombies[f].move();
-						if (player.slashing() && player.hit(zombies[f])) {
+						if ((player.slashing() || player.spinning) && player.hit(zombies[f])) {
 							zombies[f].hit(1);
 						}
 						if (zombies[f].collision(player)) {
