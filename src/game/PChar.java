@@ -7,6 +7,8 @@ import java.awt.Rectangle;
 public class PChar extends Chaser {
 	boolean slasho = false;
 	int ticks;
+	int q;
+	int qcd = 500;
 	Rectangle swordbox;
 	boolean spinning = false;
 	double angle = 2*Math.PI;
@@ -32,12 +34,13 @@ public class PChar extends Chaser {
 	public void draw(Graphics2D g2d){
 		if (!dead){
 		g2d.drawImage(pic,facer,null);
-		g2d.setColor(Color.BLUE);
+		g2d.setColor(Color.CYAN);
 		//g2d.setTransform(facer);
 		noob = new Rectangle(x-40,y-40, 80 , 80);
-		swordbox = new Rectangle(x,y-40,60,40);
+		swordbox = new Rectangle(x-50,y-70,50,20);
 		//g2d.draw(noob);
-		//g2d.draw(swordbox);
+		g2d.draw(swordbox);
+		g2d.fillRect(x-50,y-70,qcd/10,20);
 		if (hp <= 0){
 			hp = 0;
 			this.die();
@@ -45,7 +48,7 @@ public class PChar extends Chaser {
 		if (slasho){
 			ticks++;
 			//limits the slash time
-			if (ticks >= 5){
+			if (ticks >= 10){
 				ticks = 0;
 				slash();
 			}
@@ -53,6 +56,18 @@ public class PChar extends Chaser {
 			g2d.fillRect(0,-40,60,40);
 			g2d.setColor(Color.BLUE);
 			g2d.drawString("SLASHUMS", 0, 0);
+		}
+		if (spinning){
+			q++;
+			//I can't be having you spin to win all day
+			if (q >= 500){
+				q = 0;
+				spinning = false;
+				qcd = 0;
+			}
+		}
+		if (qcd != 500){
+			qcd++;
 		}
 		g2d.setTransform(identity);}
 	}
@@ -63,7 +78,8 @@ public class PChar extends Chaser {
 		return slasho;
 	}
 	public void spin(){
-		spinning = !spinning;
+		if (qcd == 500){
+		spinning = true;}
 	}
 	public boolean hit(Mover m){
 		//System.out.printlan(swordbox.intersects(m.noob));

@@ -70,7 +70,7 @@ public class Handler extends JPanel implements MouseMotionListener {
 			gu = ImageIO.read(new File("data/pchar.png"));
 			ubw = ImageIO.read(new File("data/unlimited_blade_works.jpg"));
 			bro = ImageIO.read(new File("data/Broseph.png"));
-			troll = ImageIO.read(new File("data/coolface_207.jpg"));
+			troll = ImageIO.read(new File("data/coolface.png"));
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -160,13 +160,13 @@ public class Handler extends JPanel implements MouseMotionListener {
 		player = new PChar(225, 225, Color.RED, 5, "data/pchar.png", this,
 				100);
 		zombies[0] = new Chaser(400, 400, Color.BLUE, 1, "data/face.png", this,
-				1);
+				10);
 		zombies[1] = new Chaser(600, 600, Color.BLUE, 1, "data/face.png", this,
-				1);
+				10);
 		zombies[2] = new Updown(500, 100, Color.GREEN, 1, "data/face.png", 60,
-				this, 1);
+				this, 10);
 		zombies[3] = new Chaser(100, 400, Color.RED, 1, "data/face.png", this,
-				1);
+				10);
 		music = new Thread() {
 			public void run() {
 				try {
@@ -180,12 +180,21 @@ public class Handler extends JPanel implements MouseMotionListener {
 	}
 
 	public void gamerun() {
+		int regen = 50;
 		gamerunning = true;
 		restart();
 		while ((!victory || !player.isDead()) && gamerunning) {
 			repaint();
 			status = (player.hp >= 50 ? "Healthy" : (player.hp == 0 ? "Dead" : "Dying"));
 			if (!player.isDead()) {
+				//passive regen while not in combat, so pro
+				if (player.hp < 100 && !status.equals("Getting Hurt")){
+					regen--;
+					if (regen == 0){
+						player.hp++;
+						regen = 50;
+					}
+				}
 				if (!player.reached()) {
 					player.moveTo(destx, desty);
 				}
@@ -297,9 +306,9 @@ public class Handler extends JPanel implements MouseMotionListener {
 		// ubw.paintIcon(this, g2d, 0, 0);
 		g2d.drawImage(ubw, 0, 0, null);
 		g2d.setColor(Color.BLUE);
-		//g2d.drawString(B, x, y);
+		g2d.drawString(B, x, y);
 		g2d.setColor(Color.BLACK);
-		//g2d.drawLine(player.x, player.y, x, y);
+		g2d.drawLine(player.x, player.y, x, y);
 		player.draw(g2d);
 		if (!reached) {
 			g2d.setColor(Color.RED);
