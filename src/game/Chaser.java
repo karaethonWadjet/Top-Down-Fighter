@@ -23,23 +23,38 @@ public class Chaser extends Mover {
     		//x = a;
     		//y = b;
 			snappy = true;
-			
     	}
-    	else{
+    	else{	
+    		float ratio = (a - x)/(b - y);
+    		if (ratio < 1){
+    			if (x+speed <=800){
+    				x+=speed/(b-y);
+    			}
+    			if (y+speed <=600){
+    				y+=speed;
+    			}
+    		}
+    		else {
+    			if (x+speed <=800){
+    				x+=speed;
+    			}
+    			if (y+speed <=600){
+    				y+=(a-x)/speed;
+    			}
+    		}
     		
-		
-    		if (a - x > 5){
-    			right();
-    		}
-    		else{
-    			left();
-    		}
-    		if (b - y > 5){
-    			down();
-    		}
-    		else{
-    			up();
-    		}
+//    		if (a - x > 5){
+//    			right();
+//    		}
+//    		else{
+//    			left();
+//    		}
+//    		if (b - y > 5){
+//    			down();
+//    		}
+//    		else{
+//    			up();
+//    		}
     		
     	}
 	}
