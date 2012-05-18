@@ -14,35 +14,44 @@ public class Chaser extends Mover {
 	public void face(){
 		super.face(getAngle(Parent.getPX(),Parent.getPY(),x,y),50);
 	}
-	
+
 	public void move(){
-		moveTo(Parent.getPX(),Parent.getPY());
+		if (!Parent.getspin()){
+		moveTo(Parent.getPX(),Parent.getPY());}
+		else{
+			moveTo((Parent.getPX() > x ? 0 : 800),(Parent.getPY() > y ? 0 : 600));
+		}
 	}
 	public void moveTo(int a , int b){
-		if (Math.abs(a-x) < 10 && Math.abs(b-y) < 10 && !snappy){
+		if (Math.abs(a-x) < 5 && Math.abs(b-y) < 5 && !snappy){
     		//x = a;
     		//y = b;
 			snappy = true;
     	}
-    	else{	
-    		float ratio = (a - x)/(b - y);
-    		if (ratio < 1){
-    			if (x+speed <=800){
-    				x+=speed/(b-y);
-    			}
-    			if (y+speed <=600){
-    				y+=speed;
-    			}
+    	else{
+    		if (b - y == 0){
+    		
     		}
-    		else {
-    			if (x+speed <=800){
+    		else{
+    		//float ratio = Math.abs((a - x)/(b - y));
+    			if (x+speed/(b-y) <=800 && x < a){
+    				//x+=(ratio < 1 ? speed : speed*ratio);
     				x+=speed;
     			}
-    			if (y+speed <=600){
-    				y+=(a-x)/speed;
+    			else if (x-speed/(b-y) >=0 && x > a){
+    				//x-=(ratio < 1 ? speed : speed*ratio);
+    				x-=speed;
     			}
-    		}
+    			if (y+speed <=600 && y < b){
+    				//y+=(ratio < 1 ? speed*ratio : speed);
+    				//y+=speed;
+    			}
+    			else if (y-speed >= 0 && y > b){
+    				//y-=(ratio < 1 ? speed*ratio : speed);
+    				y-=speed;
+    			}
     		
+    		}
 //    		if (a - x > 5){
 //    			right();
 //    		}

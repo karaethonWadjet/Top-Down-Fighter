@@ -144,6 +144,10 @@ public class Handler extends JPanel implements MouseMotionListener {
 	public int getPY() {
 		return player.y;
 	}
+	
+	public boolean getspin(){
+		return player.spinning;
+	}
 
 	public void restart() {
 		if (music != null) {
@@ -180,7 +184,7 @@ public class Handler extends JPanel implements MouseMotionListener {
 	}
 
 	public void gamerun() {
-		int regen = 50;
+		int regen = 500;
 		gamerunning = true;
 		restart();
 		while ((!victory || !player.isDead()) && gamerunning) {
@@ -192,7 +196,7 @@ public class Handler extends JPanel implements MouseMotionListener {
 					regen--;
 					if (regen == 0){
 						player.hp++;
-						regen = 50;
+						regen = 500;
 					}
 				}
 				if (!player.reached()) {
