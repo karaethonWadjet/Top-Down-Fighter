@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.MouseInfo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -19,6 +20,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -60,7 +62,7 @@ public class Handler extends JPanel implements MouseMotionListener {
 	int y;
 	AudioClip ac;
 	Graphics2D g2 = (Graphics2D) getGraphics();
-	Mover[] enemies;
+	ArrayList<projectile> shots = new ArrayList<projectile>();
 	boolean gamerunning = false;
 	String status;
 
@@ -144,8 +146,8 @@ public class Handler extends JPanel implements MouseMotionListener {
 	public int getPY() {
 		return player.y;
 	}
-	
-	public boolean getspin(){
+
+	public boolean getspin() {
 		return player.spinning;
 	}
 
@@ -161,8 +163,7 @@ public class Handler extends JPanel implements MouseMotionListener {
 			System.out.println("Problem playing file OH NOES");
 			System.out.println(e);
 		}
-		player = new PChar(225, 225, Color.RED, 5, "data/pchar.png", this,
-				100);
+		player = new PChar(225, 225, Color.RED, 5, "data/pchar.png", this, 100);
 		zombies[0] = new Chaser(400, 400, Color.BLUE, 1, "data/face.png", this,
 				10);
 		zombies[1] = new Chaser(600, 600, Color.BLUE, 1, "data/face.png", this,
@@ -189,12 +190,13 @@ public class Handler extends JPanel implements MouseMotionListener {
 		restart();
 		while ((!victory || !player.isDead()) && gamerunning) {
 			repaint();
-			status = (player.hp >= 50 ? "Healthy" : (player.hp == 0 ? "Dead" : "Dying"));
+			status = (player.hp >= 50 ? "Healthy" : (player.hp == 0 ? "Dead"
+					: "Dying"));
 			if (!player.isDead()) {
-				//passive regen while not in combat, so pro
-				if (player.hp < 100 && !status.equals("Getting Hurt")){
+				// passive regen while not in combat, so pro
+				if (player.hp < 100 && !status.equals("Getting Hurt")) {
 					regen--;
-					if (regen == 0){
+					if (regen == 0) {
 						player.hp++;
 						regen = 500;
 					}
@@ -222,7 +224,8 @@ public class Handler extends JPanel implements MouseMotionListener {
 					if (!zombies[f].isDead()) {
 						victory = false;
 						zombies[f].move();
-						if ((player.slashing() || player.spinning) && player.hit(zombies[f])) {
+						if ((player.slashing() || player.spinning)
+								&& player.hit(zombies[f])) {
 							zombies[f].hit(1);
 						}
 						if (zombies[f].collision(player)) {
@@ -231,6 +234,16 @@ public class Handler extends JPanel implements MouseMotionListener {
 						}
 					}
 				}
+				if (!shots.isEmpty()) {
+					for (int c = 0; c < shots.size(); c++) {
+						if (shots.get(c).reached()) {
+							shots.remove(c);
+						} else {
+							shots.get(c).move();
+						}
+					}
+				}
+
 			}
 			try {
 				Thread.sleep(5);
@@ -336,6 +349,12 @@ public class Handler extends JPanel implements MouseMotionListener {
 		} else if (victory) {
 			g2d.drawString("A winnar is you", 400, 300);
 		}
+		if (!shots.isEmpty()) {
+			for (int j = 0; j < shots.size(); j++) {
+				shots.get(j).face();
+				shots.get(j).draw(g2d);
+			}
+		}
 	}
 
 	public void paint(Graphics g) {
@@ -374,7 +393,10 @@ public class Handler extends JPanel implements MouseMotionListener {
 						destx = arg0.getX();
 						desty = arg0.getY();
 					} else {
-						player.slash();
+						// player.slash();
+						// FIRE!!!
+						shots.add(new projectile(getPX(), getPY(), Color.GREEN,
+								5, "utterbs", null, 1, arg0.getX(), arg0.getY()));
 					}
 					repaint();
 					break;
@@ -453,6 +475,11 @@ public class Handler extends JPanel implements MouseMotionListener {
 					break;
 				case KeyEvent.VK_SPACE:
 					player.slash();
+					// FIRE!!!
+					shots.add(new projectile(getPX(), getPY(), Color.GREEN, 5,
+							"utterbs", null, 1, MouseInfo.getPointerInfo()
+									.getLocation().x, MouseInfo
+									.getPointerInfo().getLocation().y));
 					break;
 				case KeyEvent.VK_R:
 					int n = JOptionPane.showConfirmDialog(frame, "Restart?",

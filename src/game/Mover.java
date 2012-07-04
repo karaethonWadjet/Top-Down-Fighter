@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
 
 
 public abstract class Mover {
-	public enum movetype{chaser,updown,slasher}
+	public enum movetype{chaser,updown,slasher,projectile}
 	AffineTransform identity = new AffineTransform();
 	AffineTransform facer = new AffineTransform();
 	Image pic;
@@ -28,6 +28,7 @@ public abstract class Mover {
 	Rectangle2D noob = new Rectangle();
 	Handler Parent;
 	int hp;
+	boolean nopic = false;
 
 	//parameters are: (a,b) starting coordinates
 	//s is speed in pixels per frame
@@ -46,7 +47,7 @@ public abstract class Mover {
 			pic = ImageIO.read(new File(p));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			nopic = true;
 		}
 	}
 	
@@ -90,14 +91,19 @@ public abstract class Mover {
 	}
 	public void draw(Graphics2D g2d){
 		//g2d.setColor(c);
-		//g2d.fillOval(x-20, y-20, 40, 40);
 		//g2d.drawString("lol",x, y);
 		//kirby.paintIcon(g2d, x-20, y-20);
 		noob = new Rectangle(x,y, 60 , 60);
 		
 		if (!dead){
 		//g2d.draw(noob);
+		if (nopic){
+			g2d.setColor(c);
+			g2d.fillOval(x-20, y-20, 40, 40);
+		}
+		else{
 		g2d.drawImage(pic,facer,null);}
+		}
 		g2d.setColor(Color.BLUE);
 		//g2d.setTransform(facer);
 		//g2d.setTransform(identity);
