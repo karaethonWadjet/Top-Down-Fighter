@@ -378,6 +378,22 @@ public class Handler extends JPanel implements MouseMotionListener {
 	public class hoop implements MouseListener {
 
 		public void mouseClicked(MouseEvent arg0) {
+			
+		}
+
+		public void mouseEntered(MouseEvent arg0) {
+
+		}
+
+		public void mouseExited(MouseEvent arg0) {
+
+		}
+
+		public void mousePressed(MouseEvent arg0) {
+
+		}
+
+		public void mouseReleased(MouseEvent arg0) {
 			if (gamerunning) {
 				switch (arg0.getButton()) {
 				case MouseEvent.BUTTON1:
@@ -419,22 +435,6 @@ public class Handler extends JPanel implements MouseMotionListener {
 				}
 
 			}
-		}
-
-		public void mouseEntered(MouseEvent arg0) {
-
-		}
-
-		public void mouseExited(MouseEvent arg0) {
-
-		}
-
-		public void mousePressed(MouseEvent arg0) {
-
-		}
-
-		public void mouseReleased(MouseEvent arg0) {
-
 		}
 	}
 
