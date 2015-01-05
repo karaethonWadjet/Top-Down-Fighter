@@ -74,7 +74,6 @@ public class Handler extends JPanel implements MouseMotionListener {
 			bro = ImageIO.read(new File("data/Broseph.png"));
 			troll = ImageIO.read(new File("data/coolface.png"));
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		// file menu bar
@@ -83,7 +82,6 @@ public class Handler extends JPanel implements MouseMotionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
 				gamerunning = false;
 			}
 
@@ -248,7 +246,6 @@ public class Handler extends JPanel implements MouseMotionListener {
 			try {
 				Thread.sleep(5);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -289,13 +286,11 @@ public class Handler extends JPanel implements MouseMotionListener {
 	}
 
 	public void mouseDragged(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 		x = arg0.getX();
 		y = arg0.getY();
 	}
 
 	public void mouseMoved(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 		x = arg0.getX();
 		y = arg0.getY();
 
@@ -383,7 +378,6 @@ public class Handler extends JPanel implements MouseMotionListener {
 	public class hoop implements MouseListener {
 
 		public void mouseClicked(MouseEvent arg0) {
-			// TODO Auto-generated method stub
 			if (gamerunning) {
 				switch (arg0.getButton()) {
 				case MouseEvent.BUTTON1:
@@ -428,29 +422,25 @@ public class Handler extends JPanel implements MouseMotionListener {
 		}
 
 		public void mouseEntered(MouseEvent arg0) {
-			// TODO Auto-generated method stub
 
 		}
 
 		public void mouseExited(MouseEvent arg0) {
-			// TODO Auto-generated method stub
 
 		}
 
 		public void mousePressed(MouseEvent arg0) {
-			// TODO Auto-generated method stub
 
 		}
 
 		public void mouseReleased(MouseEvent arg0) {
-			// TODO Auto-generated method stub
+
 		}
 	}
 
 	public class shoop implements KeyListener {
 
 		public void keyPressed(KeyEvent arg0) {
-			// TODO Auto-generated method stub
 			if (gamerunning) {
 				reached = true;
 				player.setreach(true);
@@ -493,7 +483,6 @@ public class Handler extends JPanel implements MouseMotionListener {
 		}
 
 		public void keyReleased(KeyEvent e) {
-			// TODO Auto-generated method stub
 			if (gamerunning) {
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_W:
@@ -517,7 +506,6 @@ public class Handler extends JPanel implements MouseMotionListener {
 		}
 
 		public void keyTyped(KeyEvent e) {
-			// TODO Auto-generated method stub
 
 		}
 
@@ -526,7 +514,6 @@ public class Handler extends JPanel implements MouseMotionListener {
 	public class close implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			// TODO Auto-generated method stub
 			System.exit(0);
 		}
 	}
