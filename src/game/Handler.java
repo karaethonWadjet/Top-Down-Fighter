@@ -36,30 +36,19 @@ public class Handler extends JPanel implements MouseMotionListener {
 	JButton starto = new JButton("Start");
 	JFrame frame;
 	JMenuBar bar = new JMenuBar();
-	JMenu pile = new JMenu("pile");
-	JMenu halp = new JMenu("halp");
-	JMenuItem ret = new JMenuItem("Main Menu");
-	JMenuItem quit = new JMenuItem("alt-QQ");
-	JMenuItem credits = new JMenuItem("ab00t");
+	JMenu pile = new JMenu("pile"), halp = new JMenu("halp");
+	JMenuItem ret = new JMenuItem("Main Menu"), quit = new JMenuItem("alt-QQ"),
+			credits = new JMenuItem("ab00t");
 	private static final long serialVersionUID = 1L;
 	Thread music;
 	PChar player;
 	Mover[] zombies = new Mover[4];
-	Image ubw = null;
-	Image gu = null;
-	Image bro = null;
-	Image troll = null;
-	Player lplayer;
-	Player lplayer2;
+	Image ubw = null, gu = null, bro = null, troll = null;
+	Player lplayer, lplayer2;
 	boolean[] directions = { false, false, false, false };
-	boolean reached = true;
-	boolean victory;
-	boolean back = false;
+	boolean reached = true, victory, back = false;
 	String B = "Move here";
-	int destx = 225;
-	int desty = 225;
-	int x;
-	int y;
+	int destx = 225, desty = 225, x, y;
 	AudioClip ac;
 	Graphics2D g2 = (Graphics2D) getGraphics();
 	ArrayList<projectile> shots = new ArrayList<projectile>();
@@ -378,7 +367,7 @@ public class Handler extends JPanel implements MouseMotionListener {
 	public class hoop implements MouseListener {
 
 		public void mouseClicked(MouseEvent arg0) {
-			
+
 		}
 
 		public void mouseEntered(MouseEvent arg0) {
